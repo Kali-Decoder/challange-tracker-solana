@@ -1,0 +1,234 @@
+{
+    "address": "EddGcwmuVADhAG33hhWg3uE8J2MvdrzSxaf7vYiKd2dx",
+    "metadata": {
+      "name": "counter",
+      "version": "0.1.0",
+      "spec": "0.1.0",
+      "description": "Created with Anchor"
+    },
+    "instructions": [
+      {
+        "name": "increment_counter",
+        "discriminator": [
+          16,
+          125,
+          2,
+          171,
+          73,
+          24,
+          207,
+          229
+        ],
+        "accounts": [
+          {
+            "name": "payer",
+            "writable": true,
+            "signer": true
+          },
+          {
+            "name": "counter_account",
+            "writable": true,
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "const",
+                  "value": [
+                    99,
+                    111,
+                    117,
+                    110,
+                    116,
+                    101,
+                    114,
+                    95,
+                    97,
+                    99,
+                    99,
+                    111,
+                    117,
+                    110,
+                    116
+                  ]
+                },
+                {
+                  "kind": "account",
+                  "path": "payer"
+                }
+              ]
+            }
+          }
+        ],
+        "args": []
+      },
+      {
+        "name": "initialize_counter",
+        "discriminator": [
+          67,
+          89,
+          100,
+          87,
+          231,
+          172,
+          35,
+          124
+        ],
+        "accounts": [
+          {
+            "name": "payer",
+            "writable": true,
+            "signer": true
+          },
+          {
+            "name": "counter_account",
+            "writable": true,
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "const",
+                  "value": [
+                    99,
+                    111,
+                    117,
+                    110,
+                    116,
+                    101,
+                    114,
+                    95,
+                    97,
+                    99,
+                    99,
+                    111,
+                    117,
+                    110,
+                    116
+                  ]
+                },
+                {
+                  "kind": "account",
+                  "path": "payer"
+                }
+              ]
+            }
+          },
+          {
+            "name": "system_program",
+            "address": "11111111111111111111111111111111"
+          }
+        ],
+        "args": []
+      },
+      {
+        "name": "reset_counter",
+        "discriminator": [
+          245,
+          154,
+          57,
+          72,
+          251,
+          63,
+          131,
+          79
+        ],
+        "accounts": [
+          {
+            "name": "payer",
+            "writable": true,
+            "signer": true
+          },
+          {
+            "name": "counter_account",
+            "writable": true,
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "const",
+                  "value": [
+                    99,
+                    111,
+                    117,
+                    110,
+                    116,
+                    101,
+                    114,
+                    95,
+                    97,
+                    99,
+                    99,
+                    111,
+                    117,
+                    110,
+                    116
+                  ]
+                },
+                {
+                  "kind": "account",
+                  "path": "payer"
+                }
+              ]
+            }
+          }
+        ],
+        "args": []
+      }
+    ],
+    "accounts": [
+      {
+        "name": "Counter",
+        "discriminator": [
+          255,
+          176,
+          4,
+          245,
+          188,
+          253,
+          124,
+          25
+        ]
+      }
+    ],
+    "errors": [
+      {
+        "code": 6000,
+        "name": "CustomError",
+        "msg": "Custom error message"
+      },
+      {
+        "code": 6001,
+        "name": "Unauthorized",
+        "msg": "NOT_VALID_OWNER"
+      }
+    ],
+    "types": [
+      {
+        "name": "Counter",
+        "type": {
+          "kind": "struct",
+          "fields": [
+            {
+              "name": "owner",
+              "type": "pubkey"
+            },
+            {
+              "name": "count",
+              "type": "u64"
+            },
+            {
+              "name": "total_increments",
+              "type": "u64"
+            },
+            {
+              "name": "created_at",
+              "type": "i64"
+            }
+          ]
+        }
+      }
+    ],
+    "constants": [
+      {
+        "name": "SEED",
+        "type": "string",
+        "value": "\"anchor\""
+      }
+    ]
+  }
