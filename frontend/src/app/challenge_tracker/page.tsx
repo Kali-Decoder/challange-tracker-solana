@@ -29,13 +29,13 @@ export default function Tracker() {
     if (!program || !wallet.publicKey) return;
     const userPda = await getUserPda();
     const accountInfo = await program.account.userProfile.fetch(userPda);
-    console.log(accountInfo, "accoubnt")
+    console.log(accountInfo, "account")
     const _totalChalanges = accountInfo?.challenges.length;
     setTotalChallenges(_totalChalanges);
     var _challenges = [];
     if (_totalChalanges > 0) {
-      for (var i = 0; i < totalChalanges; i++) {
-        let challangeData = await program.account.challenge.fetch(accountInfo?.challenges[0]);
+      for (var i = 0; i < _totalChalanges; i++) {
+        let challangeData = await program.account.challenge.fetch(accountInfo?.challenges[i]);
         let _x = {
           challengeId: challangeData.challengeId.toString(), // BN → string
           challengeType: Object.keys(challangeData.challengeType)[0], // Enum → name
@@ -49,6 +49,7 @@ export default function Tracker() {
 
     }
     setChallenges(_challenges);
+    console.log(challenges,"challenges");
     return _challenges;
   };
   const getProgram = async () => {
@@ -188,12 +189,13 @@ export default function Tracker() {
                 const program = await getProgram();
                 if (!program) return;
                 const userPda = await getUserPda();
-
+                console.log(Number(totalChalanges)+1,"total");
+                let _newChallangeId = Number(totalChalanges)+1;
                 await program.methods
-                  .startChallenge(new BN(Number(totalChalanges)+1), selectedChallenge.value)
+                  .startChallenge(new BN(_newChallangeId), selectedChallenge.value)
                   .accounts({
                     owner: wallet.publicKey,
-                    challenge: await getChallengePda(selectedChallenge.id),
+                    challenge: await getChallengePda(_newChallangeId),
                     userAccount: userPda,
                     systemProgram: SystemProgram.programId,
                   })
@@ -224,7 +226,7 @@ export default function Tracker() {
                 key={idx}
                 href={`/challenge_tracker/${challenge.challengeId.toString()}`}
               >
-                <li className="group p-5 bg-gradient-to-br from-[#2d2d2d] to-[#1f1f1f] rounded-2xl shadow-md border border-gray-700 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-gray-500">
+                <li className="group p-5 mt-2 mb-2 bg-gradient-to-br from-[#2d2d2d] to-[#1f1f1f] rounded-2xl shadow-md border border-gray-700 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-gray-500">
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-semibold uppercase text-lg text-yellow-400 group-hover:text-blue-400 transition">
                       {challenge.challengeType} Hard Challenge
