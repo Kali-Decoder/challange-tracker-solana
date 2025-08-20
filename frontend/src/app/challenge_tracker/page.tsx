@@ -14,6 +14,7 @@ export default function Tracker() {
   const wallet = useWallet();
   const [hasProfile, setHasProfile] = useState<boolean | null>(false);
   const [challenges, setChallenges] = useState<any[]>([]);
+  const [totalChalanges,setTotalChallenges] =useState();
   const challengeOptions = [
     { label: "One Week Hard Challenge", value: { oneWeek: {} }, id: 1 },
     { label: "One Month Hard Challenge", value: { oneMonth: {} }, id: 2 },
@@ -29,9 +30,10 @@ export default function Tracker() {
     const userPda = await getUserPda();
     const accountInfo = await program.account.userProfile.fetch(userPda);
     console.log(accountInfo, "accoubnt")
-    const totalChalanges = accountInfo?.challenges.length;
+    const _totalChalanges = accountInfo?.challenges.length;
+    setTotalChallenges(_totalChalanges);
     var _challenges = [];
-    if (totalChalanges > 0) {
+    if (_totalChalanges > 0) {
       for (var i = 0; i < totalChalanges; i++) {
         let challangeData = await program.account.challenge.fetch(accountInfo?.challenges[0]);
         let _x = {
@@ -188,7 +190,7 @@ export default function Tracker() {
                 const userPda = await getUserPda();
 
                 await program.methods
-                  .startChallenge(new BN(selectedChallenge.id), selectedChallenge.value)
+                  .startChallenge(new BN(Number(totalChalanges)+1), selectedChallenge.value)
                   .accounts({
                     owner: wallet.publicKey,
                     challenge: await getChallengePda(selectedChallenge.id),

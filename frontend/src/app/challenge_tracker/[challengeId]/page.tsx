@@ -22,7 +22,7 @@ export default function Page() {
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
   const [currentDay, setCurrentDay] = useState();
   const [totalDays, setTotalDays] = useState();
-
+  const [currentPostId , setCurrentPostId] = useState();
   const getProgram = async () => {
     if (!wallet.publicKey || !wallet.signTransaction) {
 
@@ -79,18 +79,18 @@ export default function Page() {
       // Get challenge PDA (assuming you already know challenge id)
       const challengePDA = await getChallengePda(Number(challengeId));
       // Get task PDA
-      const taskPDA = await getTaskPda(challengePDA,postId);
+      const taskPDA = await getTaskPda(challengePDA,new BN(Number(currentPostId)+1));
       const currentTime = Math.floor(Date.now() / 1000);
       // Call the program
       await program?.methods
         .uploadPost(
           new BN(challengeId),   // challenge id
-          new BN(postId),             // post id
+          new BN(Number(currentPostId)+1),             // post id
           taskInput.title,                             // string
           taskInput.description,                       // string (make sure spelling matches contract)
           taskInput.emoji,                             // emoji string
           currentTime.toString(),        // timestamp as BN
-          new BN(1)                 // day as BN
+          new BN(Number(currentDay)+1)                 // day as BN
         )
         .accounts({
           owner: wallet.publicKey,
@@ -129,6 +129,7 @@ export default function Page() {
     setCurrentDay(challengeAccount.currentDay);
     setTotalDays(challengeAccount.totalDays);
     let totalPosts = challengeAccount.posts.length;
+    setCurrentPostId(totalPosts);
     let fetched: any[] = [];
     if (totalPosts > 0) {
       for (let postId = 0; postId < totalPosts; postId++) {
