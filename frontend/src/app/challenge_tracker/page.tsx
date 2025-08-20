@@ -7,7 +7,7 @@ import { CHALLANGE_PROGRAM_ID } from "@/constant";
 import Link from "next/link";
 import idl from "@/constant/challange.json"
 import { AnchorProvider, Program, Idl, BN } from "@coral-xyz/anchor";
-
+import toast from "react-hot-toast";
 
 export default function Tracker() {
   const { connection } = useConnection();
@@ -133,6 +133,7 @@ export default function Tracker() {
           <p className="mb-4">You need to create a profile before starting challenges.</p>
           <button
             onClick={async () => {
+              let id = toast.loading("Creating profile...")
               const program = await getProgram();
               if (!program) return;
               const userPda = await getUserPda();
@@ -144,6 +145,7 @@ export default function Tracker() {
                 })
                 .rpc();
               setHasProfile(true);
+              toast.success("Profile Created",{id});
             }}
             className="px-6 py-3 bg-amber-300 cursor-pointer text-black font-bold rounded-lg hover:bg-amber-400 transition"
           >
@@ -186,6 +188,7 @@ export default function Tracker() {
 
             <button
               onClick={async () => {
+                let id = toast.loading("Creating New Challenge...")
                 const program = await getProgram();
                 if (!program) return;
                 const userPda = await getUserPda();
@@ -203,6 +206,7 @@ export default function Tracker() {
 
                 const updated = await fetchChallenges();
                 setChallenges(updated);
+                toast.success("Challenge Created",{id});
               }}
               className="px-6 py-3 bg-amber-300 cursor-pointer text-black font-bold rounded-lg hover:bg-amber-400 transition"
             >

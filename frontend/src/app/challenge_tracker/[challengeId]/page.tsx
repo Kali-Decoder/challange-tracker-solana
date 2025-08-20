@@ -7,6 +7,7 @@ import { PublicKey, SystemProgram } from "@solana/web3.js";
 import { CHALLANGE_PROGRAM_ID } from "@/constant";
 import idl from "@/constant/challange.json"
 import { AnchorProvider, Program, Idl, BN } from "@coral-xyz/anchor";
+import toast from 'react-hot-toast';
 const emojis = [
   '📄', '📅', '💡', '🚀', '💻', '📈', '✅', '✨', '⏰', '📚', '🏃‍♂️', '💪', '💰', '🧘', '🍔', '🎉',
   '❤️', '⭐', '🌈', '🐶', '🐱', '☕', '🧠', '💼', '🏡', '🎶', '🎨', '✈️', '🚗', '💡', '🔥'
@@ -72,6 +73,7 @@ export default function Page() {
   }
   const handleAddTask = async () => {
     try {
+      let id = toast.loading("Adding your task to challenge...");
       if (!wallet.publicKey) return;
        const program = await getProgram();
       if (!program && !challengeId) return;
@@ -104,6 +106,7 @@ export default function Page() {
         await fetchPosts();
   
       console.log("✅ Task uploaded successfully!");
+      toast.success("Task Added",{id});
     } catch (err) {
       console.error("❌ Error uploading task:", err);
     }

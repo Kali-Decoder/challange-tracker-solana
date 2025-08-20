@@ -43,6 +43,7 @@ const WalletContextProvider: React.FC<WalletContextProviderProps> = ({
       <WalletProvider wallets={wallets} autoConnect={false}>
         <WalletModalProvider>
           {children}
+         
         </WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
