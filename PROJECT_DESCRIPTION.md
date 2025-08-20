@@ -102,27 +102,64 @@ pub enum ChallengeType {
     SeventyFiveHard,
 }
 ```
+
+
+
+
 ## Testing
+
+```
+├── anchor_project/
+    │   ├── challenge_me/   # ChallengeMe on-chain program
+            ├── tests/
+            │   ├── challenge_me.ts # Tests for ChallengeMe
+            │   └── counter.ts      # Tests for Counter
+            ├── Anchor.toml         # Anchor config
+            └── README.md  
+    │   └── counter/        # Counter on-chain program
+            ├── tests/
+            │   ├── challenge_me.ts # Tests for ChallengeMe
+            │   └── counter.ts      # Tests for Counter
+            ├── Anchor.toml         # Anchor config
+            └── README.md           # This file
+
+```
 
 ### Test Coverage
 [TODO: Describe your testing approach and what scenarios you covered]
 
-**Happy Path Tests:**
-- Test 1: [Description]
-- Test 2: [Description]
+**Happy Path Tests: ChallengeMe Tests**
+- Test 1: ✅ Create User Profile
+- Test 2: ✅ Start a Challenge (e.g., 7 days)
+- Test 3: ✅ Upload daily posts to challenge
+- Test 4: ✅ Fetch all posts under a challenge
+- Test 5: ✅ Fetch all challenges associated with a user
+
+
+**Unhappy Path Tests: ChallengeMe Tests**
+- Test 1: ❌ Cannot start challenge if user profile not initialized
+- Test 2: ❌ Duplicate initialization reverts
+- Test 2: ❌ Invalid accounts (wrong PDA seeds) cause failure
 - ...
 
-**Unhappy Path Tests:**
-- Test 1: [Description of error scenario]
-- Test 2: [Description of error scenario]
+
+**Happy Path Tests: Counter Tests**
+- Test 1: ✅ Initialize a counter for user
+- Test 2: ✅ Increment counter multiple times
+- Test 3: ✅ Reset counter and verify persistence of totalIncrements
+
+
+**Unhappy Path Tests: Counter Tests**
+- Test 1: ❌ Double initialization reverts
+- Test 2: ❌ Invalid counter PDA causes failure
 - ...
 
 ### Running Tests
 ```bash
 # Commands to run your tests
+cd anchor_project
+cd counter/challenge_me
+anchor build 
 anchor test
 ```
 
-### Additional Notes for Evaluators
-
-[TODO: Add any specific notes or context that would help evaluators understand your project better]
