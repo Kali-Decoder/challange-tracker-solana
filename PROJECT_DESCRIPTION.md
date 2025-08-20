@@ -1,58 +1,107 @@
 # Project Description
 
-**Deployed Frontend URL:** [TODO: Link to your deployed frontend]
+**Deployed Frontend URL:** [https://challange-tracker-solana.vercel.app/](https://challange-tracker-solana.vercel.app/)  
 
-**Solana Program ID:** [TODO: Your deployed program's public key]
+**Solana Program ID:**  
+- Counter Project: `EddGcwmuVADhAG33hhWg3uE8J2MvdrzSxaf7vYiKd2dx`  
+- Challenge Tracker: `ALH6gghhaNkLbYZ9NadrYQUbqB3XSKnKo6ALgZE3htW`  
 
 ## Project Overview
 
 ### Description
-[TODO: Provide a comprehensive description of your dApp. Explain what it does. Be detailed about the core functionality.]
+This project includes two dApps in one: a Counter project and a Challenge Tracker.  
+
+- **Counter Project:** Allows users to increment and decrement a counter on-chain.  
+- **Challenge Tracker:** Enables users to create challenges, add daily tasks, and track task completion. Both challenges and tasks are stored securely on-chain using PDAs. 
 
 ### Key Features
-[TODO: List the main features of your dApp. Be specific about what users can do.]
-
-- Feature 1: [Description]
-- Feature 2: [Description]
-- ...
+- Feature 1: Counter increment/decrement on-chain.  
+- Feature 2: Create and track challenges.  
+- Feature 3: Add daily tasks to challenges.  
+- Feature 4: Mark tasks as completed and track progress.  
   
 ### How to Use the dApp
-[TODO: Provide step-by-step instructions for users to interact with your dApp]
-
-1. **Connect Wallet**
-2. **Main Action 1:** [Step-by-step instructions]
-3. **Main Action 2:** [Step-by-step instructions]
-4. ...
+1. **Connect Wallet**  
+2. **Counter Project:**  
+   - Increment or decrement the counter.  
+   - View total increments and current count.  
+3. **Challenge Tracker:**  
+   - Create a challenge by selecting type and duration.  
+   - Add tasks for each day of the challenge.  
+   - Complete tasks and monitor progress.  
+   - View an overview of challenges and completed tasks.
 
 ## Program Architecture
-[TODO: Describe your Solana program's architecture. Explain the main instructions, account structures, and data flow.]
+The dApps use Solana programs written in Anchor, with PDAs for deterministic account management.
 
 ### PDA Usage
-[TODO: Explain how you implemented Program Derived Addresses (PDAs) in your project. What seeds do you use and why?]
-
-**PDAs Used:**
-- PDA 1: [Purpose and description]
-- PDA 2: [Purpose and description]
+**PDAs Used:**  
+- **Counter PDA:** Stores counter details per user.  
+- **UserProfile PDA:** Stores user’s challenges.  
+- **Challenge PDA:** Stores challenge data using user wallet and challenge ID as seeds.  
+- **Task PDA:** Stores task data derived from the parent challenge PDA and task day. 
 
 ### Program Instructions
-[TODO: List and describe all the instructions in your Solana program]
+**Counter Program:**  
+- **Increment:** Adds 1 to the counter and updates total increments.  
+- **Decrement:** Subtracts 1 from the counter.  
 
-**Instructions Implemented:**
-- Instruction 1: [Description of what it does]
-- Instruction 2: [Description of what it does]
-- ...
+**Challenge Tracker Program:**  
+- **CreateChallenge:** Initializes a new challenge.  
+- **AddTask:** Adds a daily task to a challenge.  
+- **UploadPost/CompleteTask:** Marks a task as completed. 
 
 ### Account Structure
-[TODO: Describe your main account structures and their purposes]
+
+#### Challenge Tracker Accounts
 
 ```rust
-// Example account structure (replace with your actual structs)
+use anchor_lang::prelude::*;
+
 #[account]
-pub struct YourAccountName {
-    // Describe each field
+pub struct UserProfile {
+    pub owner: Pubkey,
+    pub challenges: Vec<Pubkey>, 
+}
+
+#[account]
+#[derive(InitSpace)]
+pub struct Task {
+    pub post_id: u64,
+    pub owner: Pubkey,
+    #[max_len(200)]
+    pub title: String,
+    #[max_len(1000)]
+    pub discription: String,
+    #[max_len(100)]
+    pub emoji: String,
+    #[max_len(100)]
+    pub current_time: String,
+    pub challenge: Pubkey,
+    pub day: u64,   
+}
+
+#[account]
+pub struct Challenge {
+    pub challenge_id: u64,
+    pub owner: Pubkey,
+    pub current_day: u32,
+    pub total_days: u32,
+    pub completed: bool,
+    pub challenge_type: ChallengeType,
+    pub posts: Vec<Pubkey>,
+}
+
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Eq, Debug)]
+pub enum ChallengeType {
+    OneWeek,
+    OneMonth,
+    TwoMonths,
+    SixMonths,
+    OneYear,
+    SeventyFiveHard,
 }
 ```
-
 ## Testing
 
 ### Test Coverage
