@@ -14,12 +14,12 @@ pub fn _initialize_event(
 ) -> Result<()> {
     let event = &mut ctx.accounts.event;
     require!(
-        name.len()>=MAX_NAME_LEN,
+        name.len()<MAX_NAME_LEN,
         TicketRegistryError::NameTooLong
     );
 
     require!(
-        desc.len()>=MAX_DESCRIPTION_LEN,
+        desc.len()<MAX_DESCRIPTION_LEN,
         TicketRegistryError::DescriptionTooLong
     );
 

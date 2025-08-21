@@ -13,7 +13,7 @@ const Navbar = () => {
                                 <div className="flex space-x-4">
                                     <a href="/counter" aria-current="page" className="rounded-md bg-gray-950/50 px-3 py-2 text-sm font-medium text-white">Counter Application</a>
                                     <a href="/challenge_tracker" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Challange Tracker Application</a>
-
+                                    <a href="/ticket_system" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Ticket System</a>
                                 </div>
                             </div>
                         </div>

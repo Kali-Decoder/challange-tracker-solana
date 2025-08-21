@@ -1,15 +1,15 @@
 use anchor_lang::prelude::*;
 
 
-pub const MAX_NAME_LEN: usize = 50;
-pub const MAX_DESCRIPTION_LEN: usize = 500;
+pub const MAX_NAME_LEN: usize = 300;
+pub const MAX_DESCRIPTION_LEN: usize = 1500;
 
 #[account]
 #[derive(InitSpace)]
 pub struct Event{
-    #[max_len(50)]
+    #[max_len(300)]
     pub name:String,
-    #[max_len(500)]
+    #[max_len(1500)]
     pub desc:String,
     pub total_tickets : u64,
     pub start_date:i64,

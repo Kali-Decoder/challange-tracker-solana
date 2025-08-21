@@ -10,15 +10,15 @@ pub fn _buy_ticket(ctx: Context<ContextBuy>, tickets_buy: u64) -> Result<()> {
     let buyer = &mut ctx.accounts.buyer;
     let system_program = &mut ctx.accounts.system_program;
     require!(
-        event.start_date > Clock::get()?.unix_timestamp,
+        event.start_date < Clock::get()?.unix_timestamp,
         TicketRegistryError::StartDateInThePast
     );
     require!(
-        event.total_tickets == 0,
+        event.total_tickets != 0,
         TicketRegistryError::AllTicketsSoldOut
     );
     require!(
-        event.total_tickets < tickets_buy,
+        event.total_tickets > tickets_buy,
         TicketRegistryError::AvailableTicketsTooLow
     );
 
